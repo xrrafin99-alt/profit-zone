@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Profit Zone (Demo)</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0b1220;
+  color:white;
+}
+
+header{
+  background:#111c33;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.container{
+  padding:15px;
+}
+
+.card{
+  background:#16213a;
+  padding:15px;
+  margin-top:12px;
+  border-radius:12px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  background:#22c55e;
+  color:white;
+  font-size:16px;
+}
+
+button.red{background:red;}
+button.blue{background:#3b82f6;}
+
+.plan{
+  border:1px solid #334155;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+}
+
+.hidden{display:none;}
+</style>
+
+</head>
+
+<body>
+
+<header>Profit Zone (DEMO)</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="loginBox" class="card">
+  <h2>Login</h2>
+  <input id="user" placeholder="Enter your name" />
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashBox" class="card hidden">
+
+  <h2>Dashboard</h2>
+  <p>Welcome, <span id="showUser"></span></p>
+
+  <div class="card">
+    <h3>Balance</h3>
+    <h2 id="balance">0</h2>
+  </div>
+
+  <div class="card">
+    <h3>Investment Plans</h3>
+
+    <div class="plan">
+      <b>50 Coin Plan</b><br>
+      Return: 100 Coin (demo)
+      <button onclick="invest(50,100)">Invest</button>
+    </div>
+
+    <div class="plan">
+      <b>100 Coin Plan</b><br>
+      Return: 220 Coin (demo)
+      <button onclick="invest(100,220)">Invest</button>
+    </div>
+
+    <div class="plan">
+      <b>200 Coin Plan</b><br>
+      Return: 500 Coin (demo)
+      <button onclick="invest(200,500)">Invest</button>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h3>Withdraw (Demo)</h3>
+    <input id="withdrawAmt" type="number" placeholder="Enter amount" />
+    <button class="blue" onclick="withdraw()">Withdraw</button>
+  </div>
+
+  <button class="red" onclick="logout()">Logout</button>
+
+</div>
+
+</div>
+
+<script>
+
+let balance = 0;
+let user = "";
+
+function login(){
+  user = document.getElementById('user').value;
+  if(!user) return alert("Enter name");
+
+  document.getElementById('showUser').innerText = user;
+
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('dashBox').classList.remove('hidden');
+}
+
+function update(){
+  document.getElementById('balance').innerText = balance;
+}
+
+function invest(cost, profit){
+  if(balance < cost){
+    alert("Not enough balance (demo)");
+    return;
+  }
+
+  balance -= cost;
+  update();
+
+  setTimeout(()=>{
+    balance += profit;
+    update();
+    alert("Profit added: " + profit);
+  }, 3000);
+}
+
+function withdraw(){
+  let amt = parseInt(document.getElementById('withdrawAmt').value);
+  if(!amt || amt<=0) return alert("Enter valid amount");
+
+  if(amt > balance) return alert("Not enough balance");
+
+  balance -= amt;
+  update();
+  alert("Withdraw request sent (demo)");
+}
+
+function logout(){
+  location.reload();
+}
+
+</script>
+
+</body>
+</html>
