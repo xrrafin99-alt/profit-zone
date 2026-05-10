@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallet System</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0b1220;
+  color:white;
+}
+
+header{
+  background:#111c33;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.container{
+  padding:15px;
+  max-width:800px;
+  margin:auto;
+}
+
+.card{
+  background:#16213a;
+  padding:15px;
+  margin-top:12px;
+  border-radius:12px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  background:#7c3aed;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{opacity:0.9;}
+
+.blue{background:#3b82f6;}
+.red{background:#ef4444;}
+
+.hidden{display:none;}
+
+#balance{
+  font-size:30px;
+  color:#22c55e;
+}
+
+small{color:#94a3b8;}
+</style>
+
+</head>
+
+<body>
+
+<header>💎 Wallet System</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="loginBox" class="card">
+  <h2>Login</h2>
+  <input id="user" placeholder="Enter your name">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashBox" class="card hidden">
+
+  <h2>Welcome, <span id="showUser"></span></h2>
+
+  <div class="card">
+    <h3>Balance</h3>
+    <div id="balance">0</div>
+    <small>Virtual Wallet</small>
+  </div>
+
+  <!-- DEPOSIT -->
+  <div class="card">
+    <h3>Deposit</h3>
+    <input id="depAmt" type="number" placeholder="Enter amount">
+    <p>Support: +8801XXXXXXXXX</p>
+    <button onclick="deposit()">Deposit</button>
+  </div>
+
+  <!-- WITHDRAW -->
+  <div class="card">
+    <h3>Withdraw</h3>
+    <input id="withAmt" type="number" placeholder="Enter amount">
+    <button class="blue" onclick="withdraw()">Withdraw</button>
+  </div>
+
+  <!-- INVEST -->
+  <div class="card">
+    <h3>Investment</h3>
+
+    <button onclick="invest(50,100)">50 → 100</button>
+    <button onclick="invest(100,220)">100 → 220</button>
+    <button onclick="invest(200,500)">200 → 500</button>
+
+  </div>
+
+  <button class="red" onclick="logout()">Logout</button>
+
+</div>
+
+</div>
+
+<script>
+
+let balance = 0;
+let user = "";
+
+function login(){
+  user = document.getElementById("user").value;
+  if(!user) return alert("Enter name");
+
+  document.getElementById("showUser").innerText = user;
+
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("dashBox").classList.remove("hidden");
+}
+
+function update(){
+  document.getElementById("balance").innerText = balance;
+}
+
+function deposit(){
+  let amt = parseInt(document.getElementById("depAmt").value);
+  if(!amt || amt<=0) return alert("Invalid amount");
+
+  balance += amt;
+  update();
+}
+
+function withdraw(){
+  let amt = parseInt(document.getElementById("withAmt").value);
+  if(!amt || amt<=0) return alert("Invalid amount");
+
+  if(amt > balance) return alert("Not enough balance");
+
+  balance -= amt;
+  update();
+}
+
+function invest(cost, profit){
+  if(balance < cost) return alert("Not enough balance");
+
+  balance -= cost;
+  update();
+
+  setTimeout(()=>{
+    balance += profit;
+    update();
+    alert("Profit added: " + profit);
+  },1200);
+}
+
+function logout(){
+  location.reload();
+}
+
+</script>
+
+</body>
+</html>
